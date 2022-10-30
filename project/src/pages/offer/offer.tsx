@@ -5,6 +5,8 @@ import OfferFeatures from '../../components/offer-features/offer-features';
 import OfferGallery from '../../components/offer-gallery/offer-gallery';
 import OfferHost from '../../components/offer-host/offer-host';
 import OfferInfo from '../../components/offer-info/offer-info';
+import OfferMap from '../../components/offer-map/offer-map';
+import OfferTitle from '../../components/offer-title/offer-title';
 import Rating from '../../components/rating/rating';
 import ReviewForm from '../../components/review-form/review-form';
 import Reviews from '../../components/reviews/reviews';
@@ -26,9 +28,7 @@ function Offer({ isAuth = false }: OfferProps): JSX.Element {
               <div className="property__mark">
                 <span>Premium</span>
               </div>
-              <div className="property__name-wrapper">
-                <h1 className="property__name">Beautiful &amp; luxurious studio at great location</h1>
-              </div>
+              <OfferTitle>Beautiful &amp; luxurious studio at great location</OfferTitle>
               <Rating rating={4.8} />
               <OfferInfo />
               <OfferFeatures />
@@ -39,7 +39,7 @@ function Offer({ isAuth = false }: OfferProps): JSX.Element {
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+          <OfferMap />
         </section>
         <div className="container">
           <NearPlaces />
