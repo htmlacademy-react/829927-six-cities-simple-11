@@ -1,8 +1,7 @@
 import React from 'react';
+import { SortType } from '../../const';
 
-interface SortProps {}
-
-function Sort(props: SortProps): JSX.Element {
+function Sort(): JSX.Element {
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
@@ -13,18 +12,12 @@ function Sort(props: SortProps): JSX.Element {
         </svg>
       </span>
       <ul className="places__options places__options--custom places__options--opened">
-        <li className="places__option places__option--active" tabIndex={0}>
-          Popular
-        </li>
-        <li className="places__option" tabIndex={0}>
-          Price: low to high
-        </li>
-        <li className="places__option" tabIndex={0}>
-          Price: high to low
-        </li>
-        <li className="places__option" tabIndex={0}>
-          Top rated first
-        </li>
+        {/* active className places__option--active */}
+        {Object.values(SortType).map((option: string) => (
+          <li className="places__option" tabIndex={0} key={option}>
+            {option}
+          </li>
+        ))}
       </ul>
     </form>
   );

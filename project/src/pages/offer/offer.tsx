@@ -1,39 +1,21 @@
 import React from 'react';
 import Header from '../../components/header/header';
+import OfferFeatures from '../../components/offer-features/offer-features';
+import PhotoGallery from '../../components/photo-gallery/photo-gallery';
+import ReviewForm from '../../components/review-form/review-form';
 
-interface OfferProps {}
+interface OfferProps {
+  isAuth?: boolean;
+}
 
-// пока не разбивала на компоненты
-
-function Offer(props: OfferProps): JSX.Element {
+function Offer({ isAuth = false }: OfferProps): JSX.Element {
   return (
     <div className="page">
       <Header />
 
       <main className="page__main page__main--property">
         <section className="property">
-          <div className="property__gallery-container container">
-            <div className="property__gallery">
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/room.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-02.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-03.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/studio-01.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio" />
-              </div>
-            </div>
-          </div>
+          <PhotoGallery />
           <div className="property__container container">
             <div className="property__wrapper">
               <div className="property__mark">
@@ -58,21 +40,7 @@ function Offer(props: OfferProps): JSX.Element {
                 <b className="property__price-value">&euro;120</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
-              <div className="property__inside">
-                <h2 className="property__inside-title">What&apos;s inside</h2>
-                <ul className="property__inside-list">
-                  <li className="property__inside-item">Wi-Fi</li>
-                  <li className="property__inside-item">Washing machine</li>
-                  <li className="property__inside-item">Towels</li>
-                  <li className="property__inside-item">Heating</li>
-                  <li className="property__inside-item">Coffee machine</li>
-                  <li className="property__inside-item">Baby seat</li>
-                  <li className="property__inside-item">Kitchen</li>
-                  <li className="property__inside-item">Dishwasher</li>
-                  <li className="property__inside-item">Cabel TV</li>
-                  <li className="property__inside-item">Fridge</li>
-                </ul>
-              </div>
+              <OfferFeatures />
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
@@ -83,9 +51,13 @@ function Offer(props: OfferProps): JSX.Element {
                   <span className="property__user-status">Pro</span>
                 </div>
                 <div className="property__description">
-                  <p className="property__text">A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.</p>
                   <p className="property__text">
-                    An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
+                    A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th
+                    century.
+                  </p>
+                  <p className="property__text">
+                    An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to
+                    rest in this alley flowery and colorful.
                   </p>
                 </div>
               </div>
@@ -108,63 +80,17 @@ function Offer(props: OfferProps): JSX.Element {
                           <span className="visually-hidden">Rating</span>
                         </div>
                       </div>
-                      <p className="reviews__text">A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.</p>
+                      <p className="reviews__text">
+                        A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from
+                        18th century.
+                      </p>
                       <time className="reviews__time" dateTime="2019-04-24">
                         April 2019
                       </time>
                     </div>
                   </li>
                 </ul>
-                <form className="reviews__htmlForm htmlForm" action="#" method="post">
-                  <label className="reviews__label htmlForm__label" htmlFor="review">
-                    Your review
-                  </label>
-                  <div className="reviews__rating-htmlForm htmlForm__rating">
-                    <input className="htmlForm__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio" />
-                    <label htmlFor="5-stars" className="reviews__rating-label htmlForm__rating-label" title="perfect">
-                      <svg className="htmlForm__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="htmlForm__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio" />
-                    <label htmlFor="4-stars" className="reviews__rating-label htmlForm__rating-label" title="good">
-                      <svg className="htmlForm__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="htmlForm__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio" />
-                    <label htmlFor="3-stars" className="reviews__rating-label htmlForm__rating-label" title="not bad">
-                      <svg className="htmlForm__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="htmlForm__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio" />
-                    <label htmlFor="2-stars" className="reviews__rating-label htmlForm__rating-label" title="badly">
-                      <svg className="htmlForm__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="htmlForm__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio" />
-                    <label htmlFor="1-star" className="reviews__rating-label htmlForm__rating-label" title="terribly">
-                      <svg className="htmlForm__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-                  </div>
-                  <textarea className="reviews__textarea htmlForm__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
-                  <div className="reviews__button-wrapper">
-                    <p className="reviews__help">
-                      To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
-                    </p>
-                    <button className="reviews__submit htmlForm__submit button" type="submit" disabled>
-                      Submit
-                    </button>
-                  </div>
-                </form>
+                {isAuth && <ReviewForm />}
               </section>
             </div>
           </div>

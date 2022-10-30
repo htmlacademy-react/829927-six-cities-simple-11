@@ -1,4 +1,27 @@
-const places = [
+import { IPlace } from './types/IPlace';
+
+enum AppRoute {
+  Main = '/',
+  Login = '/login',
+  Offer = '/offer/:id',
+}
+
+enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+
+enum SortType {
+  Popular = 'Popular',
+  PriceLowToHigh = 'Price: low to high',
+  PriceHighToLow = 'Price: high to low',
+  Rate = 'Top rated first',
+}
+
+const locations: string[] = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusserdorf'];
+
+const places: IPlace[] = [
   {
     bedrooms: 4,
     city: {
@@ -166,4 +189,4 @@ const places = [
   },
 ];
 
-export { places };
+export { AppRoute, AuthorizationStatus, SortType, places, locations };
