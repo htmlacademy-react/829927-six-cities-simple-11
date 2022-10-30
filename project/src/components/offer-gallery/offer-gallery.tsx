@@ -1,6 +1,6 @@
 import React from 'react';
 
-function PhotoGallery(): JSX.Element {
+function OfferGallery(): JSX.Element {
   return (
     <div className="property__gallery-container container">
       <div className="property__gallery">
@@ -27,4 +27,4 @@ function PhotoGallery(): JSX.Element {
   );
 }
 
-export default PhotoGallery;
+export default OfferGallery;
