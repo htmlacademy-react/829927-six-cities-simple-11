@@ -1,8 +1,6 @@
 import React from 'react';
 
-interface MapProps {}
-
-function Map(props: MapProps): JSX.Element {
+function Map(): JSX.Element {
   return <section className="cities__map map"></section>;
 }
 
