@@ -1,22 +1,22 @@
-import React from 'react';
-import { places } from '../../const';
-import { IPlace } from '../../types/IPlace';
+import React, { SetStateAction } from 'react';
+import { IOffer } from '../../types/IOffer';
 import PlaceCard from '../place-card/place-card';
 import Sort from '../sort/sort';
 
 interface PlacesProps {
-  offersCount: number;
+  offers: IOffer[];
+  setActiveCardId: React.Dispatch<SetStateAction<number | null>>;
 }
 
-function Places({ offersCount }: PlacesProps): JSX.Element {
+function Places({ offers, setActiveCardId }: PlacesProps): JSX.Element {
   return (
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
-      <b className="places__found">{offersCount} places to stay in Amsterdam</b>
+      <b className="places__found">{offers.length} places to stay in Amsterdam</b>
       <Sort />
       <div className="cities__places-list places__list tabs__content">
-        {places.map((place: IPlace) => (
-          <PlaceCard place={place} key={place.id} />
+        {offers.map((offer: IOffer) => (
+          <PlaceCard place={offer} key={offer.id} setActiveCardId={setActiveCardId} />
         ))}
       </div>
     </section>

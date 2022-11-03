@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import cn from 'classnames';
 import Header from '../../components/header/header';
 import Locations from '../../components/locations/locations';
 import Map from '../../components/map/map';
 import NoPlaces from '../../components/no-places/no-places';
 import Places from '../../components/places/places';
+import { IOffer } from '../../types/IOffer';
 
 interface MainProps {
-  offersCount: number;
+  offers: IOffer[];
 }
 
-function Main({ offersCount }: MainProps): JSX.Element {
-  const noOffers = offersCount === 0;
+function Main({ offers }: MainProps): JSX.Element {
+  const noOffers = offers.length === 0;
+  const [activeCardId, setActiveCardId] = useState<number | null>(null);
 
   return (
     <div className="page page--gray page--main">
@@ -31,8 +33,8 @@ function Main({ offersCount }: MainProps): JSX.Element {
               'cities__places-container--empty': noOffers,
             })}
           >
-            {noOffers ? <NoPlaces /> : <Places offersCount={offersCount} />}
-            <div className="cities__right-section">{!noOffers && <Map />}</div>
+            {noOffers ? <NoPlaces /> : <Places offers={offers} setActiveCardId={setActiveCardId} />}
+            <div className="cities__right-section">{!noOffers && <Map activeCardId={activeCardId} />}</div>
           </div>
         </div>
       </main>

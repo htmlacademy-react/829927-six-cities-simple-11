@@ -16,7 +16,7 @@ export interface IHost {
   name: string;
 }
 
-export interface IPlace {
+export interface IOffer {
   bedrooms: number;
   city: ICity;
   description: string;

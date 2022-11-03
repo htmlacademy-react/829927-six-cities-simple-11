@@ -1,6 +1,10 @@
 import React from 'react';
 
-function Map(): JSX.Element {
+interface MapProps {
+  activeCardId: number | null;
+}
+
+function Map({ activeCardId }: MapProps): JSX.Element {
   return <section className="cities__map map"></section>;
 }
 
