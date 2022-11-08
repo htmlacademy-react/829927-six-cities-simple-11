@@ -15,6 +15,14 @@ function Main({ offers }: MainProps): JSX.Element {
   const noOffers = offers.length === 0;
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
 
+  const onCardMouseEnter = (evt: React.MouseEvent<HTMLDivElement>) => {
+    setActiveCardId(Number(evt.currentTarget.dataset.id));
+  };
+
+  const onCardMouseLeave = (evt: React.MouseEvent<HTMLDivElement>) => {
+    setActiveCardId(null);
+  };
+
   return (
     <div className="page page--gray page--main">
       <Header />
@@ -33,8 +41,8 @@ function Main({ offers }: MainProps): JSX.Element {
               'cities__places-container--empty': noOffers,
             })}
           >
-            {noOffers ? <NoPlaces /> : <Places offers={offers} setActiveCardId={setActiveCardId} />}
-            <div className="cities__right-section">{!noOffers && <Map activeCardId={activeCardId} />}</div>
+            {noOffers ? <NoPlaces /> : <Places offers={offers} onCardMouseEnter={onCardMouseEnter} onCardMouseLeave={onCardMouseLeave} />}
+            <div className="cities__right-section">{!noOffers && <Map type="main-page" offers={offers} activeCardId={activeCardId} />}</div>
           </div>
         </div>
       </main>

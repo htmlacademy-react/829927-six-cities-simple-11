@@ -1,21 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../../components/header/header';
 import NearPlaces from '../../components/near-places/near-places';
 import OfferFeatures from '../../components/offer-features/offer-features';
 import OfferGallery from '../../components/offer-gallery/offer-gallery';
 import OfferHost from '../../components/offer-host/offer-host';
 import OfferInfo from '../../components/offer-info/offer-info';
-import OfferMap from '../../components/offer-map/offer-map';
 import OfferTitle from '../../components/offer-title/offer-title';
 import Rating from '../../components/rating/rating';
 import ReviewForm from '../../components/review-form/review-form';
 import Reviews from '../../components/reviews/reviews';
+import Map from '../../components/map/map';
+import { IOffer } from '../../types/IOffer';
 
 interface OfferProps {
   isAuth?: boolean;
+  similarOffers: IOffer[];
 }
 
-function Offer({ isAuth = false }: OfferProps): JSX.Element {
+function Offer({ isAuth = false, similarOffers }: OfferProps): JSX.Element {
+  const [activeCardId, setActiveCardId] = useState<number | null>(null);
+
+  const onCardMouseEnter = (evt: React.MouseEvent<HTMLDivElement>) => {
+    setActiveCardId(Number(evt.currentTarget.dataset.id));
+  };
+
+  const onCardMouseLeave = (evt: React.MouseEvent<HTMLDivElement>) => {
+    setActiveCardId(null);
+  };
+
   return (
     <div className="page">
       <Header />
@@ -39,10 +51,10 @@ function Offer({ isAuth = false }: OfferProps): JSX.Element {
               </section>
             </div>
           </div>
-          <OfferMap />
+          <Map type="offer-page" offers={similarOffers} activeCardId={activeCardId} />
         </section>
         <div className="container">
-          <NearPlaces />
+          <NearPlaces similarOffers={similarOffers} onCardMouseEnter={onCardMouseEnter} onCardMouseLeave={onCardMouseLeave} />
         </div>
       </main>
     </div>

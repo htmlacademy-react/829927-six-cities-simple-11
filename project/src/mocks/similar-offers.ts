@@ -1,6 +1,6 @@
 import { IOffer } from '../types/IOffer';
 
-export const offers: IOffer[] = [
+export const similarOffers: IOffer[] = [
   {
     bedrooms: 4,
     city: {
@@ -91,40 +91,6 @@ export const offers: IOffer[] = [
     location: {
       latitude: 52.3909553943508,
       longitude: 4.929309666406198,
-      zoom: 1,
-    },
-    maxAdults: 2,
-    previewImage: '',
-    price: 100,
-    rating: 10,
-    title: '',
-    type: '',
-  },
-  {
-    bedrooms: 4,
-    city: {
-      location: {
-        latitude: 52.377956,
-        longitude: 4.89707,
-
-        zoom: 1,
-      },
-      name: 'Amsterdam',
-    },
-    description: 'Description',
-    goods: [],
-    host: {
-      avatarUrl: '',
-      id: 0,
-      isPro: false,
-      name: '',
-    },
-    id: 4,
-    images: [],
-    isPremium: true,
-    location: {
-      latitude: 52.3809553943508,
-      longitude: 4.939309666406198,
       zoom: 1,
     },
     maxAdults: 2,
