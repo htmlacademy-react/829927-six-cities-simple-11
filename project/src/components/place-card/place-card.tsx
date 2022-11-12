@@ -14,7 +14,7 @@ function PlaceCard({ type, place, onCardMouseEnter, onCardMouseLeave }: PlaceCar
   return (
     <article
       className={cn('place-card', {
-        'cities-card': type === 'city-card',
+        'cities__card': type === 'city-card',
         'near-places__card': type === 'similar-card',
       })}
       onMouseEnter={onCardMouseEnter}
