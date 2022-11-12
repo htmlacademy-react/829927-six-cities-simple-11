@@ -9,15 +9,16 @@ import { IOffer } from '../../types/IOffer';
 interface AppScreenProps {
   isAuth: boolean;
   offers: IOffer[];
+  similarOffers: IOffer[];
 }
 
-function App({ isAuth, offers }: AppScreenProps): JSX.Element {
+function App({ isAuth, offers, similarOffers }: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route path={AppRoute.Main} element={<Main offers={offers} />} />
         <Route path={AppRoute.Login} element={<Login />} />
-        <Route path={AppRoute.Offer} element={<Offer isAuth={isAuth} />} />
+        <Route path={AppRoute.Offer} element={<Offer isAuth={isAuth} similarOffers={similarOffers} />} />
         <Route path={AppRoute.NotFound} element={<NotFound />} />
       </Routes>
     </BrowserRouter>

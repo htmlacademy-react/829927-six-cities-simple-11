@@ -1,27 +1,35 @@
-import React, { SetStateAction } from 'react';
+import cn from 'classnames';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { IOffer } from '../../types/IOffer';
 
 interface PlaceCardProps {
+  type: 'city-card' | 'similar-card';
   place: IOffer;
-  setActiveCardId: React.Dispatch<SetStateAction<number | null>>;
+  onCardMouseEnter?: (evt: React.MouseEvent<HTMLDivElement>) => void;
+  onCardMouseLeave?: (evt: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-function PlaceCard({ place, setActiveCardId }: PlaceCardProps): JSX.Element {
-  const handleCardHover = (evt: React.MouseEvent<HTMLDivElement>) => {
-    setActiveCardId(Number(evt.currentTarget.dataset.id));
-  };
-
-  const handleCardLeave = (evt: React.MouseEvent<HTMLDivElement>) => {
-    setActiveCardId(null);
-  };
-
+function PlaceCard({ type, place, onCardMouseEnter, onCardMouseLeave }: PlaceCardProps): JSX.Element {
   return (
-    <article className="cities__card place-card" onMouseEnter={handleCardHover} onMouseLeave={handleCardLeave} data-id={place.id}>
+    <article
+      className={cn('place-card', {
+        'cities__card': type === 'city-card',
+        'near-places__card': type === 'similar-card',
+      })}
+      onMouseEnter={onCardMouseEnter}
+      onMouseLeave={onCardMouseLeave}
+      data-id={place.id}
+    >
       <div className="place-card__mark">
         <span>Premium</span>
       </div>
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div
+        className={cn('place-card__image-wrapper', {
+          'cities__image-wrapper': type === 'city-card',
+          'near-places__image-wrapper': type === 'similar-card',
+        })}
+      >
         <Link to={`offer/${place.id}`}>
           <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place image" />
         </Link>
