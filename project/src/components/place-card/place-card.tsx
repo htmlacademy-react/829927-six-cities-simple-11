@@ -1,20 +1,30 @@
-import React from 'react';
-import { IPlace } from '../../types/IPlace';
+import React, { SetStateAction } from 'react';
+import { Link } from 'react-router-dom';
+import { IOffer } from '../../types/IOffer';
 
 interface PlaceCardProps {
-  place: IPlace;
+  place: IOffer;
+  setActiveCardId: React.Dispatch<SetStateAction<number | null>>;
 }
 
-function PlaceCard({ place }: PlaceCardProps): JSX.Element {
+function PlaceCard({ place, setActiveCardId }: PlaceCardProps): JSX.Element {
+  const handleCardHover = (evt: React.MouseEvent<HTMLDivElement>) => {
+    setActiveCardId(Number(evt.currentTarget.dataset.id));
+  };
+
+  const handleCardLeave = (evt: React.MouseEvent<HTMLDivElement>) => {
+    setActiveCardId(null);
+  };
+
   return (
-    <article className="cities__card place-card">
+    <article className="cities__card place-card" onMouseEnter={handleCardHover} onMouseLeave={handleCardLeave} data-id={place.id}>
       <div className="place-card__mark">
         <span>Premium</span>
       </div>
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={`offer/${place.id}`}>
           <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place image" />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -30,7 +40,7 @@ function PlaceCard({ place }: PlaceCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">Beautiful &amp; luxurious apartment at great location</a>
+          <Link to={`offer/${place.id}`}>Beautiful &amp; luxurious apartment at great location</Link>
         </h2>
         <p className="place-card__type">Apartment</p>
       </div>

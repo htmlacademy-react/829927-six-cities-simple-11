@@ -4,19 +4,21 @@ import Login from '../../pages/login/login';
 import Main from '../../pages/main/main';
 import NotFound from '../../pages/not-found/not-found';
 import Offer from '../../pages/offer/offer';
+import { IOffer } from '../../types/IOffer';
 
 interface AppScreenProps {
-  offersCount: number;
+  isAuth: boolean;
+  offers: IOffer[];
 }
 
-function App({ offersCount }: AppScreenProps): JSX.Element {
+function App({ isAuth, offers }: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Main} element={<Main offersCount={offersCount} />} />
+        <Route path={AppRoute.Main} element={<Main offers={offers} />} />
         <Route path={AppRoute.Login} element={<Login />} />
-        <Route path={AppRoute.Offer} element={<Offer />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path={AppRoute.Offer} element={<Offer isAuth={isAuth} />} />
+        <Route path={AppRoute.NotFound} element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
