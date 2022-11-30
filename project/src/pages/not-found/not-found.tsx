@@ -1,6 +1,5 @@
 import Header from '../../components/header/header';
 import LocationItem from '../../components/location-item/location-item';
-import { AppRoute } from '../../const';
 
 function NotFound(): JSX.Element {
   return (
@@ -13,9 +12,7 @@ function NotFound(): JSX.Element {
             <h1 className="login__title">Page not found</h1>
           </section>
           <section className="locations locations--login locations--current">
-            <LocationItem type="single" path={AppRoute.Main}>
-              Go to main
-            </LocationItem>
+            <LocationItem locationName="Go to main" type="single" />
           </section>
         </div>
       </main>
