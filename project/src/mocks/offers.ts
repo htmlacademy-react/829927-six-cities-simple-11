@@ -104,6 +104,40 @@ export const offers: IOffer[] = [
     bedrooms: 4,
     city: {
       location: {
+        latitude: 48.864716,
+        longitude: 2.349014,
+
+        zoom: 1,
+      },
+      name: 'Paris',
+    },
+    description: 'Description',
+    goods: [],
+    host: {
+      avatarUrl: '',
+      id: 0,
+      isPro: false,
+      name: '',
+    },
+    id: 5,
+    images: [],
+    isPremium: true,
+    location: {
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 1,
+    },
+    maxAdults: 2,
+    previewImage: '',
+    price: 100,
+    rating: 10,
+    title: '',
+    type: '',
+  },
+  {
+    bedrooms: 4,
+    city: {
+      location: {
         latitude: 52.377956,
         longitude: 4.89707,
 

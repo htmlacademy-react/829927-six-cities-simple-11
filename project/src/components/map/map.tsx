@@ -5,6 +5,8 @@ import { IOffer } from '../../types/IOffer';
 import useMap from '../../hooks/useMap';
 import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
 import cn from 'classnames';
+import useAppSelector from '../../hooks/useAppSelector';
+import { getLatLongByCity } from '../../utils/offer';
 
 interface MapProps {
   type: 'offer-page' | 'main-page';
@@ -25,11 +27,16 @@ const currentCustomIcon = new Icon({
 });
 
 function Map({ type, offers, activeCardId }: MapProps): JSX.Element {
+  const { city } = useAppSelector((state) => state.OFFER);
+
   const mapRef = useRef(null);
-  const map = useMap(mapRef, offers[0].city);
+  const map = useMap(mapRef, getLatLongByCity(city));
 
   useEffect(() => {
     if (map) {
+      const cityCoords = getLatLongByCity(city);
+      map.setView([cityCoords.location.latitude, cityCoords.location.longitude], cityCoords.location.zoom);
+
       offers.forEach((offer: IOffer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
@@ -39,7 +46,7 @@ function Map({ type, offers, activeCardId }: MapProps): JSX.Element {
         marker.setIcon(activeCardId !== null && offer.id === activeCardId ? currentCustomIcon : defaultCustomIcon).addTo(map);
       });
     }
-  }, [map, offers, activeCardId]);
+  }, [map, offers, activeCardId, city]);
 
   return (
     <section

@@ -24,9 +24,10 @@ function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: ICity): Map 
       instance.addLayer(layer);
 
       setMap(instance);
+
       isRenderedRef.current = true;
     }
-  }, [mapRef, city]);
+  }, [mapRef, city, map]);
 
   return map;
 }

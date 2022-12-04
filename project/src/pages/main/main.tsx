@@ -5,13 +5,11 @@ import Locations from '../../components/locations/locations';
 import Map from '../../components/map/map';
 import NoPlaces from '../../components/no-places/no-places';
 import Places from '../../components/places/places';
-import { IOffer } from '../../types/IOffer';
+import useAppSelector from '../../hooks/useAppSelector';
 
-interface MainProps {
-  offers: IOffer[];
-}
+function Main(): JSX.Element {
+  const { offers } = useAppSelector((state) => state.OFFER);
 
-function Main({ offers }: MainProps): JSX.Element {
   const noOffers = offers.length === 0;
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
 
@@ -41,7 +39,7 @@ function Main({ offers }: MainProps): JSX.Element {
               'cities__places-container--empty': noOffers,
             })}
           >
-            {noOffers ? <NoPlaces /> : <Places offers={offers} onCardMouseEnter={onCardMouseEnter} onCardMouseLeave={onCardMouseLeave} />}
+            {noOffers ? <NoPlaces /> : <Places onCardMouseEnter={onCardMouseEnter} onCardMouseLeave={onCardMouseLeave} />}
             <div className="cities__right-section">{!noOffers && <Map type="main-page" offers={offers} activeCardId={activeCardId} />}</div>
           </div>
         </div>
