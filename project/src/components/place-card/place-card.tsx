@@ -21,9 +21,11 @@ function PlaceCard({ type, place, onCardMouseEnter, onCardMouseLeave }: PlaceCar
       onMouseLeave={onCardMouseLeave}
       data-id={place.id}
     >
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div>
+      {place.isPremium && (
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>
+      )}
       <div
         className={cn('place-card__image-wrapper', {
           'cities__image-wrapper': type === 'city-card',
@@ -37,7 +39,7 @@ function PlaceCard({ type, place, onCardMouseEnter, onCardMouseLeave }: PlaceCar
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;120</b>
+            <b className="place-card__price-value">&euro;{place.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
         </div>
@@ -48,9 +50,9 @@ function PlaceCard({ type, place, onCardMouseEnter, onCardMouseLeave }: PlaceCar
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`offer/${place.id}`}>Beautiful &amp; luxurious apartment at great location</Link>
+          <Link to={`offer/${place.id}`}>{place.title}</Link>
         </h2>
-        <p className="place-card__type">Apartment</p>
+        <p className="place-card__type">{place.type}</p>
       </div>
     </article>
   );

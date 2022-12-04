@@ -15,8 +15,8 @@ enum AuthorizationStatus {
 
 enum SortType {
   Popular = 'Popular',
-  PriceLowToHigh = 'Price: low to high',
-  PriceHighToLow = 'Price: high to low',
+  PriceLowToHight = 'Price: low to high',
+  PriceHightToLow = 'Price: high to low',
   Rate = 'Top rated first',
 }
 
@@ -81,4 +81,6 @@ const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/java
 
 const DEFAULT_CITY = 'Paris';
 
-export { AppRoute, AuthorizationStatus, SortType, NameSpace, locations, URL_MARKER_DEFAULT, URL_MARKER_CURRENT, DEFAULT_CITY };
+const DEFAULT_SORT_OPTION = 'Popular';
+
+export { AppRoute, AuthorizationStatus, SortType, NameSpace, locations, URL_MARKER_DEFAULT, URL_MARKER_CURRENT, DEFAULT_CITY, DEFAULT_SORT_OPTION };
