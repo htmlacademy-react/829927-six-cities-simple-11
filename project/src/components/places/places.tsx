@@ -3,6 +3,7 @@ import useAppSelector from '../../hooks/useAppSelector';
 import { IOffer } from '../../types/IOffer';
 import PlaceCard from '../place-card/place-card';
 import Sort from '../sort/sort';
+import Spinner from '../spinner/spinner';
 
 interface PlacesProps {
   onCardMouseEnter: (evt: React.MouseEvent<HTMLDivElement>) => void;
@@ -10,7 +11,15 @@ interface PlacesProps {
 }
 
 function Places({ onCardMouseEnter, onCardMouseLeave }: PlacesProps): JSX.Element {
-  const { city, offers } = useAppSelector((state) => state.OFFER);
+  const { city, offers, isOffersDataLoading } = useAppSelector((state) => state.OFFER);
+
+  if (isOffersDataLoading) {
+    return (
+      <section className="cities__places places">
+        <Spinner />
+      </section>
+    );
+  }
 
   return (
     <section className="cities__places places">

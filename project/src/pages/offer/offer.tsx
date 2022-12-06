@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/header/header';
 import NearPlaces from '../../components/near-places/near-places';
 import OfferFeatures from '../../components/offer-features/offer-features';
@@ -11,13 +11,23 @@ import ReviewForm from '../../components/review-form/review-form';
 import Reviews from '../../components/reviews/reviews';
 import Map from '../../components/map/map';
 import { IOffer } from '../../types/IOffer';
+import { AuthorizationStatus } from '../../const';
+import useAppSelector from '../../hooks/useAppSelector';
+import { useParams } from 'react-router-dom';
 
 interface OfferProps {
-  isAuth?: boolean;
   similarOffers: IOffer[];
 }
 
-function Offer({ isAuth = false, similarOffers }: OfferProps): JSX.Element {
+function Offer({ similarOffers }: OfferProps): JSX.Element {
+  const params = useParams();
+
+  const { id } = params;
+
+  const { authorizationStatus } = useAppSelector((state) => state.AUTHORIZATION);
+
+  const { offers } = useAppSelector((state) => state.OFFER);
+
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
 
   const onCardMouseEnter = (evt: React.MouseEvent<HTMLDivElement>) => {
@@ -27,6 +37,10 @@ function Offer({ isAuth = false, similarOffers }: OfferProps): JSX.Element {
   const onCardMouseLeave = (evt: React.MouseEvent<HTMLDivElement>) => {
     setActiveCardId(null);
   };
+
+  useEffect(() => {
+    offers.find((offer: IOffer) => offer.id === Number(id));
+  }, []);
 
   return (
     <div className="page">
@@ -47,7 +61,7 @@ function Offer({ isAuth = false, similarOffers }: OfferProps): JSX.Element {
               <OfferHost />
               <section className="property__reviews reviews">
                 <Reviews reviews={[{ id: 1 }]} />
-                {isAuth && <ReviewForm />}
+                {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />}
               </section>
             </div>
           </div>

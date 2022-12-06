@@ -1,4 +1,4 @@
-import { locations, SortType } from '../const';
+import { locations, MAX_RATING, SortType } from '../const';
 import { ICity, IOffer } from '../types/IOffer';
 
 const getOffersByCity = (offers: IOffer[], city: string) => offers.filter((offer: IOffer) => offer.city.name === city);
@@ -11,12 +11,12 @@ const sortByPriceHightToLow = (offers: IOffer[]): IOffer[] => offers.sort((offer
 
 const sortByPriceLowToHight = (offers: IOffer[]): IOffer[] => offers.sort((offerA, offerB) => offerB.price - offerA.price);
 
-const sortByTopRated = (offers: IOffer[]): IOffer[] => offers.sort((offerA, offerB) => offerA.rating - offerB.rating);
+const sortByTopRated = (offers: IOffer[]): IOffer[] => offers.sort((offerA, offerB) => offerB.rating - offerA.rating);
 
-const sortOffersBy = (offers: IOffer[], sortType: keyof typeof SortType) => {
+const sortOffersBy = (allOffers: IOffer[], offers: IOffer[], sortType: keyof typeof SortType, city: string) => {
   switch (sortType) {
     case 'Popular':
-      offers = sortByPopular(offers);
+      offers = getOffersByCity(allOffers, city);
       break;
     case 'PriceLowToHight':
       offers = sortByPriceHightToLow(offers);
@@ -38,6 +38,8 @@ const getSortKeyByValue = (value: string) => {
   return key;
 };
 
+const transformRatingToWidth = (rating: number) => `${(Math.round(rating) / MAX_RATING) * 100}%`;
+
 export {
   getOffersByCity,
   getLatLongByCity,
@@ -47,4 +49,5 @@ export {
   sortByTopRated,
   sortOffersBy,
   getSortKeyByValue,
+  transformRatingToWidth,
 };

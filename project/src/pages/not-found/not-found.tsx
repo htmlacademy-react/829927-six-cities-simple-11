@@ -12,7 +12,7 @@ function NotFound(): JSX.Element {
             <h1 className="login__title">Page not found</h1>
           </section>
           <section className="locations locations--login locations--current">
-            <LocationItem locationName="Go to main" type="single" />
+            <LocationItem locationName="Go to main" type="single" isNotFoundPage />
           </section>
         </div>
       </main>
