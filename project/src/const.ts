@@ -1,4 +1,4 @@
-import { ICity } from './types/IOffer';
+import { ICity } from './types/offer';
 
 enum AppRoute {
   Main = '/',
@@ -22,13 +22,15 @@ enum SortType {
 
 enum NameSpace {
   Authorization = 'AUTHORIZATION',
+  Offers = 'OFFERS',
   Offer = 'OFFER',
 }
 
-enum APIRoute {
+enum ApiRoute {
   Offers = '/hotels',
   Login = '/login',
   Logout = '/logout',
+  Reviews = '/comments',
 }
 
 const locations: ICity[] = [
@@ -96,12 +98,18 @@ const REQUEST_TIMEOUT = 5000;
 
 const MAX_RATING = 5;
 
+const MIN_REVIEW_LENGTH = 50;
+
+const MAX_REVIEW_LENGTH = 300;
+
+const RATING_LABELS = ['terribly', 'badly', 'not bad', 'good', 'perfect'];
+
 export {
   AppRoute,
   AuthorizationStatus,
   SortType,
   NameSpace,
-  APIRoute,
+  ApiRoute,
   locations,
   URL_MARKER_DEFAULT,
   URL_MARKER_CURRENT,
@@ -110,4 +118,7 @@ export {
   BACKEND_URL,
   REQUEST_TIMEOUT,
   MAX_RATING,
+  MIN_REVIEW_LENGTH,
+  MAX_REVIEW_LENGTH,
+  RATING_LABELS,
 };

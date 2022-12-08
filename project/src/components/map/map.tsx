@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Icon, Marker } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { IOffer } from '../../types/IOffer';
+import { IOffer } from '../../types/offer';
 import useMap from '../../hooks/useMap';
 import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
 import cn from 'classnames';
@@ -27,7 +27,7 @@ const currentCustomIcon = new Icon({
 });
 
 function Map({ type, offers, activeCardId }: MapProps): JSX.Element {
-  const { city } = useAppSelector((state) => state.OFFER);
+  const { city } = useAppSelector((state) => state.OFFERS);
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, getLatLongByCity(city));
@@ -51,8 +51,8 @@ function Map({ type, offers, activeCardId }: MapProps): JSX.Element {
   return (
     <section
       className={cn('map', {
-        'cities__map': type === 'main-page',
-        'property__map': type === 'offer-page',
+        cities__map: type === 'main-page',
+        property__map: type === 'offer-page',
       })}
       ref={mapRef}
     />

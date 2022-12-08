@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { IOffer } from '../../types/IOffer';
+import { IOffer } from '../../types/offer';
 import { transformRatingToWidth } from '../../utils/offer';
 
 interface PlaceCardProps {
@@ -15,7 +15,7 @@ function PlaceCard({ type, place, onCardMouseEnter, onCardMouseLeave }: PlaceCar
   return (
     <article
       className={cn('place-card', {
-        'cities__card': type === 'city-card',
+        cities__card: type === 'city-card',
         'near-places__card': type === 'similar-card',
       })}
       onMouseEnter={onCardMouseEnter}
@@ -34,7 +34,7 @@ function PlaceCard({ type, place, onCardMouseEnter, onCardMouseLeave }: PlaceCar
         })}
       >
         <Link to={`offer/${place.id}`}>
-          <img className="place-card__image" src={place.images[0]} width="260" height="200" alt="Place image" />
+          <img className="place-card__image" src={place.previewImage} width="260" height="200" alt="Place image" />
         </Link>
       </div>
       <div className="place-card__info">

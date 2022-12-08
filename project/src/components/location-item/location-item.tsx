@@ -14,7 +14,7 @@ interface LocationItemProps {
 function LocationItem({ isNotFoundPage = false, locationName, type }: PropsWithChildren<LocationItemProps>): JSX.Element {
   const { setCity } = useActions();
   const navigate = useNavigate();
-  const { city } = useAppSelector((state) => state.OFFER);
+  const { city } = useAppSelector((state) => state.OFFERS);
 
   const handleLocationClick = (evt: React.MouseEvent) => {
     evt.preventDefault();

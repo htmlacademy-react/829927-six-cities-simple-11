@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import App from './components/app/app';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import { fetchOffers } from './store/reducers/offer/action';
+import { fetchOffers } from './store/reducers/offers/action';
 import { checkAuth } from './store/reducers/authorization/action';
 import 'react-toastify/dist/ReactToastify.css';
 

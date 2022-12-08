@@ -9,7 +9,7 @@ interface HeaderProps {
 }
 
 function Header({ isLoginPage = false }: HeaderProps): JSX.Element {
-  const { authorizationStatus } = useAppSelector((state) => state.AUTHORIZATION);
+  const { authorizationStatus, user } = useAppSelector((state) => state.AUTHORIZATION);
   const { logoutUser } = useActions();
 
   const handleLogoutClick = (evt: React.MouseEvent) => {
@@ -34,7 +34,7 @@ function Header({ isLoginPage = false }: HeaderProps): JSX.Element {
                     <li className="header__nav-item user">
                       <div className="header__nav-profile">
                         <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                        <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                        <span className="header__user-name user__name">{user.email}</span>
                       </div>
                     </li>
                     <li className="header__nav-item">

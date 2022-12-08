@@ -1,5 +1,5 @@
 import { locations, MAX_RATING, SortType } from '../const';
-import { ICity, IOffer } from '../types/IOffer';
+import { ICity, IOffer } from '../types/offer';
 
 const getOffersByCity = (offers: IOffer[], city: string) => offers.filter((offer: IOffer) => offer.city.name === city);
 
@@ -40,6 +40,22 @@ const getSortKeyByValue = (value: string) => {
 
 const transformRatingToWidth = (rating: number) => `${(Math.round(rating) / MAX_RATING) * 100}%`;
 
+const tranformDate = (dateISO: string) => {
+  const date = new Date(dateISO);
+
+  return date.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+};
+
+const tranformDateToAttr = (dateISO: string) => {
+  const date = new Date(dateISO);
+
+  const year = date.toLocaleString('en-US', { year: 'numeric' });
+  const month = date.toLocaleString('en-US', { month: 'numeric' });
+  const day = date.toLocaleString('en-US', { day: 'numeric' });
+
+  return `${year}-${month}-${day}`;
+};
+
 export {
   getOffersByCity,
   getLatLongByCity,
@@ -50,4 +66,6 @@ export {
   sortOffersBy,
   getSortKeyByValue,
   transformRatingToWidth,
+  tranformDate,
+  tranformDateToAttr,
 };

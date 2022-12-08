@@ -1,5 +1,5 @@
 import React from 'react';
-import { IOffer } from '../../types/IOffer';
+import { IOffer } from '../../types/offer';
 import PlaceCard from '../place-card/place-card';
 
 interface NearPlaces {

@@ -1,9 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/header';
 import LocationItem from '../../components/location-item/location-item';
 import LoginForm from '../../components/login-form/login-form';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import useAppSelector from '../../hooks/useAppSelector';
 
 function Login(): JSX.Element {
+  const { authorizationStatus } = useAppSelector((state) => state.AUTHORIZATION);
+  const navigate = useNavigate();
+
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    navigate(AppRoute.Main);
+  }
+
   return (
     <div className="page page--gray page--login">
       <Header isLoginPage />

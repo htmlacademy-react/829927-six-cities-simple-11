@@ -1,6 +1,6 @@
 import React from 'react';
 import { locations } from '../../const';
-import { ICity } from '../../types/IOffer';
+import { ICity } from '../../types/offer';
 import LocationItem from '../location-item/location-item';
 
 function Locations(): JSX.Element {

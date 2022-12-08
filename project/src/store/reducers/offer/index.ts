@@ -1,41 +1,58 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { DEFAULT_CITY } from '../../../const';
-import { IOffer } from '../../../types/IOffer';
-import { getOffersByCity, sortOffersBy } from '../../../utils/offer';
-import { loadOffers, setCity, setOffersDataLoadingStatus, sortOffers, updateOffers } from './action';
+import { IOffer } from '../../../types/offer';
+import { IReview } from '../../../types/review';
+import {
+  loadOffer,
+  loadOffersNearBy,
+  loadReviews,
+  setOfferDataLoadingStatus,
+  setOffersNearByLoadingStatus,
+  setReviewLoadingStatus,
+  setReviewsLoadingStatus,
+} from './action';
 
 interface IState {
-  city: string;
-  allOffers: IOffer[];
-  offers: IOffer[];
-  isOffersDataLoading: boolean;
+  offer: IOffer | null;
+  isOfferDataLoading: boolean;
+  offersNearBy: IOffer[];
+  isOffersNearByLoading: boolean;
+  reviews: IReview[];
+  isReviewsLoading: boolean;
+  isReviewLoading: boolean;
 }
 
 const initialState: IState = {
-  city: DEFAULT_CITY,
-  allOffers: [],
-  offers: [],
-  isOffersDataLoading: false,
+  offer: null,
+  isOfferDataLoading: false,
+  offersNearBy: [],
+  isOffersNearByLoading: false,
+  reviews: [],
+  isReviewsLoading: false,
+  isReviewLoading: false,
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(setCity, (state, action) => {
-      state.city = action.payload;
-      state.offers = getOffersByCity(state.allOffers, action.payload);
+    .addCase(loadOffer, (state, action) => {
+      state.offer = action.payload;
     })
-    .addCase(updateOffers, (state, action) => {
-      state.offers = getOffersByCity(state.allOffers, action.payload);
+    .addCase(setOfferDataLoadingStatus, (state, action) => {
+      state.isOfferDataLoading = action.payload;
     })
-    .addCase(sortOffers, (state, action) => {
-      state.offers = sortOffersBy(state.allOffers, state.offers, action.payload, state.city);
+    .addCase(loadOffersNearBy, (state, action) => {
+      state.offersNearBy = action.payload;
     })
-    .addCase(loadOffers, (state, action) => {
-      state.allOffers = action.payload;
-      state.offers = getOffersByCity(state.allOffers, DEFAULT_CITY);
+    .addCase(setOffersNearByLoadingStatus, (state, action) => {
+      state.isOffersNearByLoading = action.payload;
     })
-    .addCase(setOffersDataLoadingStatus, (state, action) => {
-      state.isOffersDataLoading = action.payload;
+    .addCase(loadReviews, (state, action) => {
+      state.reviews = action.payload;
+    })
+    .addCase(setReviewsLoadingStatus, (state, action) => {
+      state.isReviewsLoading = action.payload;
+    })
+    .addCase(setReviewLoadingStatus, (state, action) => {
+      state.isReviewLoading = action.payload;
     });
 });
 

@@ -6,10 +6,9 @@ import Map from '../../components/map/map';
 import NoPlaces from '../../components/no-places/no-places';
 import Places from '../../components/places/places';
 import useAppSelector from '../../hooks/useAppSelector';
-import Spinner from '../../components/spinner/spinner';
 
 function Main(): JSX.Element {
-  const { offers, isOffersDataLoading } = useAppSelector((state) => state.OFFER);
+  const { offers, isOffersDataLoading } = useAppSelector((state) => state.OFFERS);
 
   const noOffers = isOffersDataLoading === false && offers.length === 0;
   const [activeCardId, setActiveCardId] = useState<number | null>(null);

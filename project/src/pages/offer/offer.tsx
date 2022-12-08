@@ -10,23 +10,24 @@ import Rating from '../../components/rating/rating';
 import ReviewForm from '../../components/review-form/review-form';
 import Reviews from '../../components/reviews/reviews';
 import Map from '../../components/map/map';
-import { IOffer } from '../../types/IOffer';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, NameSpace } from '../../const';
 import useAppSelector from '../../hooks/useAppSelector';
 import { useParams } from 'react-router-dom';
+import { useActions } from '../../hooks/useActions';
+import Spinner from '../../components/spinner/spinner';
 
-interface OfferProps {
-  similarOffers: IOffer[];
-}
-
-function Offer({ similarOffers }: OfferProps): JSX.Element {
+function Offer(): JSX.Element {
   const params = useParams();
+
+  const { fetchOffer, fetchReviews, fetchOffersNearBy } = useActions();
 
   const { id } = params;
 
-  const { authorizationStatus } = useAppSelector((state) => state.AUTHORIZATION);
+  const { authorizationStatus } = useAppSelector((state) => state[NameSpace.Authorization]);
 
-  const { offers } = useAppSelector((state) => state.OFFER);
+  const { offer, offersNearBy, reviews, isOfferDataLoading, isOffersNearByLoading, isReviewsLoading } = useAppSelector(
+    (state) => state[NameSpace.Offer]
+  );
 
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
 
@@ -38,38 +39,51 @@ function Offer({ similarOffers }: OfferProps): JSX.Element {
     setActiveCardId(null);
   };
 
+  const isDataLoading = isOfferDataLoading || isOffersNearByLoading || isReviewsLoading;
+
   useEffect(() => {
-    offers.find((offer: IOffer) => offer.id === Number(id));
-  }, []);
+    if (id) {
+      fetchOffer(id);
+      fetchReviews(id);
+      fetchOffersNearBy(id);
+    }
+  }, [id]);
 
   return (
     <div className="page">
       <Header />
 
       <main className="page__main page__main--property">
-        <section className="property">
-          <OfferGallery />
-          <div className="property__container container">
-            <div className="property__wrapper">
-              <div className="property__mark">
-                <span>Premium</span>
+        {isDataLoading && <Spinner />}
+        {!isDataLoading && offer !== null && (
+          <>
+            <section className="property">
+              <OfferGallery images={offer.images} />
+              <div className="property__container container">
+                <div className="property__wrapper">
+                  {offer.isPremium && (
+                    <div className="property__mark">
+                      <span>Premium</span>
+                    </div>
+                  )}
+                  <OfferTitle>{offer.title}</OfferTitle>
+                  <Rating rating={offer.rating} />
+                  <OfferInfo type={offer.type} bedrooms={offer.bedrooms} adults={offer.maxAdults} price={offer.price} />
+                  <OfferFeatures features={offer.goods} />
+                  <OfferHost host={offer.host} description={offer.description} />
+                  <section className="property__reviews reviews">
+                    <Reviews reviews={reviews} />
+                    {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />}
+                  </section>
+                </div>
               </div>
-              <OfferTitle>Beautiful &amp; luxurious studio at great location</OfferTitle>
-              <Rating rating={4.8} />
-              <OfferInfo />
-              <OfferFeatures />
-              <OfferHost />
-              <section className="property__reviews reviews">
-                <Reviews reviews={[{ id: 1 }]} />
-                {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />}
-              </section>
+              <Map type="offer-page" offers={offersNearBy} activeCardId={activeCardId} />
+            </section>
+            <div className="container">
+              <NearPlaces similarOffers={offersNearBy} onCardMouseEnter={onCardMouseEnter} onCardMouseLeave={onCardMouseLeave} />
             </div>
-          </div>
-          <Map type="offer-page" offers={similarOffers} activeCardId={activeCardId} />
-        </section>
-        <div className="container">
-          <NearPlaces similarOffers={similarOffers} onCardMouseEnter={onCardMouseEnter} onCardMouseLeave={onCardMouseLeave} />
-        </div>
+          </>
+        )}
       </main>
     </div>
   );

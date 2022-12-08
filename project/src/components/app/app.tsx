@@ -16,7 +16,7 @@ function App(): JSX.Element {
         <Routes>
           <Route path={AppRoute.Main} element={<Main />} />
           <Route path={AppRoute.Login} element={<Login />} />
-          <Route path={AppRoute.Offer} element={<Offer similarOffers={[]} />} />
+          <Route path={AppRoute.Offer} element={<Offer />} />
           <Route path={AppRoute.NotFound} element={<NotFound />} />
         </Routes>
       </HistoryRouter>

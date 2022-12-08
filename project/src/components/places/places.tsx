@@ -1,6 +1,6 @@
 import React from 'react';
 import useAppSelector from '../../hooks/useAppSelector';
-import { IOffer } from '../../types/IOffer';
+import { IOffer } from '../../types/offer';
 import PlaceCard from '../place-card/place-card';
 import Sort from '../sort/sort';
 import Spinner from '../spinner/spinner';
@@ -11,7 +11,7 @@ interface PlacesProps {
 }
 
 function Places({ onCardMouseEnter, onCardMouseLeave }: PlacesProps): JSX.Element {
-  const { city, offers, isOffersDataLoading } = useAppSelector((state) => state.OFFER);
+  const { city, offers, isOffersDataLoading } = useAppSelector((state) => state.OFFERS);
 
   if (isOffersDataLoading) {
     return (

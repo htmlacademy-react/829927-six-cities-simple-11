@@ -1,36 +1,91 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { APIRoute, SortType } from '../../../const';
-import { IOffer } from '../../../types/IOffer';
+import { ApiRoute, AppRoute } from '../../../const';
+import { IOffer } from '../../../types/offer';
+import { IReview, IReviewParams } from '../../../types/review';
 import { AppDispatch, State } from '../../../types/state';
+import { redirectToRoute } from '../authorization/action';
 
-export const setCity = createAction('offer/setCity', (cityName: string) => ({
-  payload: cityName,
-}));
+export const loadOffer = createAction<IOffer>('offer/loadOffer');
 
-export const updateOffers = createAction('offer/updateOffers', (cityName: string) => ({
-  payload: cityName,
-}));
+export const setOfferDataLoadingStatus = createAction<boolean>('offer/setOfferDataLoadingStatus');
 
-export const sortOffers = createAction('offer/sortOffers', (sort: keyof typeof SortType) => ({
-  payload: sort,
-}));
+export const loadOffersNearBy = createAction('offer/loadOffersNearBy', (offers: IOffer[]) => ({ payload: offers }));
 
-export const loadOffers = createAction<IOffer[]>('offer/loadOffers');
+export const setOffersNearByLoadingStatus = createAction('offer/setOffersNearByLoadingStatus', (isLoading: boolean) => ({ payload: isLoading }));
 
-export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');
+export const loadReviews = createAction('offer/loadReviews', (reviews: IReview[]) => ({ payload: reviews }));
 
-export const fetchOffers = createAsyncThunk<
+export const setReviewsLoadingStatus = createAction('offer/setReviewsLoadingStatus', (isLoading: boolean) => ({ payload: isLoading }));
+
+export const setReviewLoadingStatus = createAction('offer/setReviewLoadingStatus', (isLoading: boolean) => ({ payload: isLoading }));
+
+export const fetchOffer = createAsyncThunk<
   void,
-  undefined,
+  string,
   {
     dispatch: AppDispatch;
     state: State;
     extra: AxiosInstance;
   }
->('offer/fetchOffers', async (_arg, { dispatch, extra: api }) => {
-  dispatch(setOffersDataLoadingStatus(true));
-  const { data } = await api.get<IOffer[]>(APIRoute.Offers);
-  dispatch(loadOffers(data));
-  dispatch(setOffersDataLoadingStatus(false));
+>('offer/fetchOffer', async (id, { dispatch, extra: api }) => {
+  try {
+    dispatch(setOfferDataLoadingStatus(true));
+    const { data } = await api.get<IOffer>(`${ApiRoute.Offers}/${id}`);
+    dispatch(loadOffer(data));
+    dispatch(setOfferDataLoadingStatus(false));
+  } catch {
+    dispatch(redirectToRoute(AppRoute.NotFound));
+  }
+});
+
+export const fetchOffersNearBy = createAsyncThunk<
+  void,
+  string,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('offer/fetchOffersNearBy', async (id, { dispatch, extra: api }) => {
+  dispatch(setOffersNearByLoadingStatus(true));
+
+  const { data } = await api.get<IOffer[]>(`${ApiRoute.Offers}/${id}/nearby`);
+
+  dispatch(loadOffersNearBy(data));
+  dispatch(setOffersNearByLoadingStatus(false));
+});
+
+export const fetchReviews = createAsyncThunk<
+  void,
+  string,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('offer/fetchReviews', async (id, { dispatch, extra: api }) => {
+  dispatch(setReviewsLoadingStatus(true));
+
+  const { data } = await api.get<IReview[]>(`${ApiRoute.Reviews}/${id}`);
+
+  dispatch(loadReviews(data));
+  dispatch(setReviewsLoadingStatus(false));
+});
+
+export const postReview = createAsyncThunk<
+  void,
+  IReviewParams,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('offer/postReview', async (params, { dispatch, extra: api }) => {
+  dispatch(setReviewLoadingStatus(true));
+
+  const { data } = await api.post<IReview[]>(`${ApiRoute.Reviews}/${params.id}`, params.review);
+
+  dispatch(loadReviews(data));
+  dispatch(setReviewLoadingStatus(false));
 });
