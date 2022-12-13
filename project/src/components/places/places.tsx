@@ -1,8 +1,11 @@
 import React from 'react';
 import useAppSelector from '../../hooks/useAppSelector';
-import { IOffer } from '../../types/IOffer';
+import { getCity, getOffers, getOffersErrorStatus, getOffersLoadingStatus } from '../../store/reducers/offers/selectors';
+import { IOffer } from '../../types/offer';
+import ErrorMessage from '../error-message/error-message';
 import PlaceCard from '../place-card/place-card';
 import Sort from '../sort/sort';
+import Spinner from '../spinner/spinner';
 
 interface PlacesProps {
   onCardMouseEnter: (evt: React.MouseEvent<HTMLDivElement>) => void;
@@ -10,7 +13,26 @@ interface PlacesProps {
 }
 
 function Places({ onCardMouseEnter, onCardMouseLeave }: PlacesProps): JSX.Element {
-  const { city, offers } = useAppSelector((state) => state.OFFER);
+  const city = useAppSelector(getCity);
+  const offers = useAppSelector(getOffers);
+  const isOffersDataLoading = useAppSelector(getOffersLoadingStatus);
+  const isOffersDataError = useAppSelector(getOffersErrorStatus);
+
+  if (isOffersDataLoading) {
+    return (
+      <section className="cities__places places">
+        <Spinner />
+      </section>
+    );
+  }
+
+  if (isOffersDataError) {
+    return (
+      <section className="cities__places places">
+        <ErrorMessage />
+      </section>
+    );
+  }
 
   return (
     <section className="cities__places places">

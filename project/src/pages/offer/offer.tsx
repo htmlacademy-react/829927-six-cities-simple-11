@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Header from '../../components/header/header';
 import NearPlaces from '../../components/near-places/near-places';
 import OfferFeatures from '../../components/offer-features/offer-features';
@@ -10,52 +10,97 @@ import Rating from '../../components/rating/rating';
 import ReviewForm from '../../components/review-form/review-form';
 import Reviews from '../../components/reviews/reviews';
 import Map from '../../components/map/map';
-import { IOffer } from '../../types/IOffer';
+import { AuthorizationStatus } from '../../const';
+import useAppSelector from '../../hooks/useAppSelector';
+import { useParams } from 'react-router-dom';
+import { useActions } from '../../hooks/useActions';
+import Spinner from '../../components/spinner/spinner';
+import { getAuthorizationStatus } from '../../store/reducers/authorization/selectors';
+import {
+  getOffer,
+  getOfferErrorStatus,
+  getOfferLoadingStatus,
+  getOffersNearBy,
+  getOffersNearByLoadingStatus,
+  getReviews,
+  getReviewsLoadingStatus,
+} from '../../store/reducers/offer/selectors';
+import ErrorMessage from '../../components/error-message/error-message';
+import { IOffer } from '../../types/offer';
 
-interface OfferProps {
-  isAuth?: boolean;
-  similarOffers: IOffer[];
-}
+function Offer(): JSX.Element {
+  const params = useParams();
 
-function Offer({ isAuth = false, similarOffers }: OfferProps): JSX.Element {
-  const [activeCardId, setActiveCardId] = useState<number | null>(null);
+  const { fetchOffer, fetchReviews, fetchOffersNearBy } = useActions();
 
-  const onCardMouseEnter = (evt: React.MouseEvent<HTMLDivElement>) => {
-    setActiveCardId(Number(evt.currentTarget.dataset.id));
-  };
+  const { id } = params;
 
-  const onCardMouseLeave = (evt: React.MouseEvent<HTMLDivElement>) => {
-    setActiveCardId(null);
-  };
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const offer = useAppSelector(getOffer);
+  const offersNearBy = useAppSelector(getOffersNearBy);
+  const reviews = useAppSelector(getReviews);
+  const isOfferDataLoading = useAppSelector(getOfferLoadingStatus);
+  const isOffersNearByLoading = useAppSelector(getOffersNearByLoadingStatus);
+  const isReviewsLoading = useAppSelector(getReviewsLoadingStatus);
+  const isOfferDataError = useAppSelector(getOfferErrorStatus);
+
+  const isDataLoading = isOfferDataLoading || isOffersNearByLoading || isReviewsLoading;
+
+  const offers: IOffer[] = useMemo(() => {
+    if (offer) {
+      return [offer, ...offersNearBy];
+    }
+    return offersNearBy;
+  }, [offer, offersNearBy]);
+
+  useEffect(() => {
+    if (id) {
+      fetchOffer(id);
+      fetchReviews(id);
+      fetchOffersNearBy(id);
+    }
+  }, [id]);
 
   return (
     <div className="page">
       <Header />
 
       <main className="page__main page__main--property">
-        <section className="property">
-          <OfferGallery />
-          <div className="property__container container">
-            <div className="property__wrapper">
-              <div className="property__mark">
-                <span>Premium</span>
-              </div>
-              <OfferTitle>Beautiful &amp; luxurious studio at great location</OfferTitle>
-              <Rating rating={4.8} />
-              <OfferInfo />
-              <OfferFeatures />
-              <OfferHost />
-              <section className="property__reviews reviews">
-                <Reviews reviews={[{ id: 1 }]} />
-                {isAuth && <ReviewForm />}
-              </section>
+        {isDataLoading && <Spinner />}
+        {!isDataLoading && offer !== null && (
+          <>
+            <section className="property">
+              {isOfferDataError && <ErrorMessage />}
+              {!isOfferDataError && (
+                <>
+                  <OfferGallery images={offer.images} />
+                  <div className="property__container container">
+                    <div className="property__wrapper">
+                      {offer.isPremium && (
+                        <div className="property__mark">
+                          <span>Premium</span>
+                        </div>
+                      )}
+                      <OfferTitle>{offer.title}</OfferTitle>
+                      <Rating rating={offer.rating} />
+                      <OfferInfo type={offer.type} bedrooms={offer.bedrooms} adults={offer.maxAdults} price={offer.price} />
+                      <OfferFeatures features={offer.goods} />
+                      <OfferHost host={offer.host} description={offer.description} />
+                      <section className="property__reviews reviews">
+                        <Reviews reviews={reviews} />
+                        {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />}
+                      </section>
+                    </div>
+                  </div>
+                  <Map type="offer-page" offers={offers} activeCardId={Number(id)} />
+                </>
+              )}
+            </section>
+            <div className="container">
+              <NearPlaces similarOffers={offersNearBy} />
             </div>
-          </div>
-          <Map type="offer-page" offers={similarOffers} activeCardId={activeCardId} />
-        </section>
-        <div className="container">
-          <NearPlaces similarOffers={similarOffers} onCardMouseEnter={onCardMouseEnter} onCardMouseLeave={onCardMouseLeave} />
-        </div>
+          </>
+        )}
       </main>
     </div>
   );

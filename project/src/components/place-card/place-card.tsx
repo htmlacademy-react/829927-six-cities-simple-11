@@ -1,7 +1,9 @@
 import cn from 'classnames';
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { IOffer } from '../../types/IOffer';
+import { generatePath, Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+import { IOffer } from '../../types/offer';
+import { transformRatingToWidth } from '../../utils/offer';
 
 interface PlaceCardProps {
   type: 'city-card' | 'similar-card';
@@ -32,8 +34,8 @@ function PlaceCard({ type, place, onCardMouseEnter, onCardMouseLeave }: PlaceCar
           'near-places__image-wrapper': type === 'similar-card',
         })}
       >
-        <Link to={`offer/${place.id}`}>
-          <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place image" />
+        <Link to={generatePath(AppRoute.Offer, { id: String(place.id) })}>
+          <img className="place-card__image" src={place.previewImage} width="260" height="200" alt="Place image" />
         </Link>
       </div>
       <div className="place-card__info">
@@ -45,8 +47,8 @@ function PlaceCard({ type, place, onCardMouseEnter, onCardMouseLeave }: PlaceCar
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: '80%' }}></span>
-            <span className="visually-hidden">Rating</span>
+            <span style={{ width: transformRatingToWidth(place.rating) }}></span>
+            <span className="visually-hidden">Rating </span>
           </div>
         </div>
         <h2 className="place-card__name">
