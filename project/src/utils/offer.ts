@@ -1,5 +1,6 @@
 import { locations, MAX_RATING, SortType } from '../const';
 import { ICity, IOffer } from '../types/offer';
+import { IReview } from '../types/review';
 
 const getOffersByCity = (offers: IOffer[], city: string) => offers.filter((offer: IOffer) => offer.city.name === city);
 
@@ -56,6 +57,9 @@ const tranformDateToAttr = (dateISO: string) => {
   return `${year}-${month}-${day}`;
 };
 
+const sortReviewsByDate = (reviews: IReview[]) =>
+  reviews.sort((reviewA, reviewB) => new Date(reviewB.date).getTime() - new Date(reviewA.date).getTime());
+
 export {
   getOffersByCity,
   getLatLongByCity,
@@ -68,4 +72,5 @@ export {
   transformRatingToWidth,
   tranformDate,
   tranformDateToAttr,
+  sortReviewsByDate,
 };

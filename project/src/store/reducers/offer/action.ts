@@ -4,6 +4,7 @@ import { ApiRoute, AppRoute } from '../../../const';
 import { IOffer } from '../../../types/offer';
 import { IReview, IReviewParams } from '../../../types/review';
 import { AppDispatch, State } from '../../../types/state';
+import { sortReviewsByDate } from '../../../utils/offer';
 import { redirectToRoute } from '../authorization/action';
 
 export const fetchOffer = createAsyncThunk<
@@ -46,7 +47,7 @@ export const fetchReviews = createAsyncThunk<
   }
 >('offer/fetchReviews', async (id, { dispatch, extra: api }) => {
   const { data } = await api.get<IReview[]>(`${ApiRoute.Reviews}/${id}`);
-  return data;
+  return sortReviewsByDate(data);
 });
 
 export const postReview = createAsyncThunk<

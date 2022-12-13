@@ -1,4 +1,5 @@
 import React from 'react';
+import { REVIEWS_PER_PAGE } from '../../const';
 import useAppSelector from '../../hooks/useAppSelector';
 import { getReviewsErrorStatus } from '../../store/reducers/offer/selectors';
 import { IReview } from '../../types/review';
@@ -20,7 +21,7 @@ function Reviews({ reviews }: ReviewsProps): JSX.Element {
       {isReviewsError && <ErrorMessage />}
       {!isReviewsError && (
         <ul className="reviews__list">
-          {reviews.map((review: IReview) => (
+          {reviews.slice(0, REVIEWS_PER_PAGE).map((review: IReview) => (
             <ReviewItem review={review} key={review.id} />
           ))}
         </ul>
