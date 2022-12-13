@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
 import Header from '../../components/header/header';
 import Locations from '../../components/locations/locations';
@@ -6,9 +6,14 @@ import Map from '../../components/map/map';
 import NoPlaces from '../../components/no-places/no-places';
 import Places from '../../components/places/places';
 import useAppSelector from '../../hooks/useAppSelector';
+import { useActions } from '../../hooks/useActions';
+import { getOffers, getOffersLoadingStatus } from '../../store/reducers/offers/selectors';
 
 function Main(): JSX.Element {
-  const { offers, isOffersDataLoading } = useAppSelector((state) => state.OFFERS);
+  const offers = useAppSelector(getOffers);
+  const isOffersDataLoading = useAppSelector(getOffersLoadingStatus);
+
+  const { fetchOffers } = useActions();
 
   const noOffers = isOffersDataLoading === false && offers.length === 0;
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
@@ -20,6 +25,10 @@ function Main(): JSX.Element {
   const onCardMouseLeave = (evt: React.MouseEvent<HTMLDivElement>) => {
     setActiveCardId(null);
   };
+
+  useEffect(() => {
+    fetchOffers();
+  }, []);
 
   return (
     <div className="page page--gray page--main">

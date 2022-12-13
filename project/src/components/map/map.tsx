@@ -7,6 +7,7 @@ import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
 import cn from 'classnames';
 import useAppSelector from '../../hooks/useAppSelector';
 import { getLatLongByCity } from '../../utils/offer';
+import { getCity } from '../../store/reducers/offers/selectors';
 
 interface MapProps {
   type: 'offer-page' | 'main-page';
@@ -27,7 +28,7 @@ const currentCustomIcon = new Icon({
 });
 
 function Map({ type, offers, activeCardId }: MapProps): JSX.Element {
-  const { city } = useAppSelector((state) => state.OFFERS);
+  const city = useAppSelector(getCity);
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, getLatLongByCity(city));
@@ -51,8 +52,8 @@ function Map({ type, offers, activeCardId }: MapProps): JSX.Element {
   return (
     <section
       className={cn('map', {
-        cities__map: type === 'main-page',
-        property__map: type === 'offer-page',
+        'cities__map': type === 'main-page',
+        'property__map': type === 'offer-page',
       })}
       ref={mapRef}
     />

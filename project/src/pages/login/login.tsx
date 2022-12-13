@@ -5,9 +5,10 @@ import LocationItem from '../../components/location-item/location-item';
 import LoginForm from '../../components/login-form/login-form';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import useAppSelector from '../../hooks/useAppSelector';
+import { getAuthorizationStatus } from '../../store/reducers/authorization/selectors';
 
 function Login(): JSX.Element {
-  const { authorizationStatus } = useAppSelector((state) => state.AUTHORIZATION);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
 
   if (authorizationStatus === AuthorizationStatus.Auth) {

@@ -4,6 +4,7 @@ import { useActions } from '../../hooks/useActions';
 import useAppSelector from '../../hooks/useAppSelector';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { getCity } from '../../store/reducers/offers/selectors';
 
 interface LocationItemProps {
   locationName: string;
@@ -14,7 +15,7 @@ interface LocationItemProps {
 function LocationItem({ isNotFoundPage = false, locationName, type }: PropsWithChildren<LocationItemProps>): JSX.Element {
   const { setCity } = useActions();
   const navigate = useNavigate();
-  const { city } = useAppSelector((state) => state.OFFERS);
+  const city = useAppSelector(getCity);
 
   const handleLocationClick = (evt: React.MouseEvent) => {
     evt.preventDefault();

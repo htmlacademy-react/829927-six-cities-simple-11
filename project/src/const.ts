@@ -104,6 +104,8 @@ const MAX_REVIEW_LENGTH = 300;
 
 const RATING_LABELS = ['terribly', 'badly', 'not bad', 'good', 'perfect'];
 
+const GALLERY_PHOTO_COUNT = 6;
+
 export {
   AppRoute,
   AuthorizationStatus,
@@ -121,4 +123,5 @@ export {
   MIN_REVIEW_LENGTH,
   MAX_REVIEW_LENGTH,
   RATING_LABELS,
+  GALLERY_PHOTO_COUNT,
 };

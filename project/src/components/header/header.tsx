@@ -3,13 +3,15 @@ import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useActions } from '../../hooks/useActions';
 import useAppSelector from '../../hooks/useAppSelector';
+import { getAuthorizationStatus, getUser } from '../../store/reducers/authorization/selectors';
 
 interface HeaderProps {
   isLoginPage?: boolean;
 }
 
 function Header({ isLoginPage = false }: HeaderProps): JSX.Element {
-  const { authorizationStatus, user } = useAppSelector((state) => state.AUTHORIZATION);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const user = useAppSelector(getUser);
   const { logoutUser } = useActions();
 
   const handleLogoutClick = (evt: React.MouseEvent) => {

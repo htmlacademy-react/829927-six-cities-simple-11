@@ -1,29 +1,38 @@
-import { createReducer } from '@reduxjs/toolkit';
-import { AuthorizationStatus } from '../../../const';
+import { createSlice } from '@reduxjs/toolkit';
+import { AuthorizationStatus, NameSpace } from '../../../const';
+import { IAuthState } from '../../../types/state';
 import { IUser } from '../../../types/user-data';
-import { clearUser, requireAuthorization, setUser } from './action';
+import { checkAuth, loginUser, logoutUser } from './action';
 
-interface IState {
-  authorizationStatus: AuthorizationStatus;
-  user: IUser;
-}
-
-const initialState: IState = {
+const initialState: IAuthState = {
   authorizationStatus: AuthorizationStatus.Unknown,
   user: {} as IUser,
 };
 
-const reducer = createReducer(initialState, (builder) => {
-  builder
-    .addCase(requireAuthorization, (state, action) => {
-      state.authorizationStatus = action.payload;
-    })
-    .addCase(setUser, (state, action) => {
-      state.user = action.payload;
-    })
-    .addCase(clearUser, (state, action) => {
-      state.user = {} as IUser;
-    });
+const reducer = createSlice({
+  name: NameSpace.Authorization,
+  initialState,
+  reducers: {},
+  extraReducers(builder) {
+    builder
+      .addCase(checkAuth.fulfilled, (state) => {
+        state.authorizationStatus = AuthorizationStatus.Auth;
+      })
+      .addCase(checkAuth.rejected, (state) => {
+        state.authorizationStatus = AuthorizationStatus.NoAuth;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.authorizationStatus = AuthorizationStatus.Auth;
+        state.user = action.payload;
+      })
+      .addCase(loginUser.rejected, (state) => {
+        state.authorizationStatus = AuthorizationStatus.NoAuth;
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.authorizationStatus = AuthorizationStatus.NoAuth;
+        state.user = {} as IUser;
+      });
+  },
 });
 
 export default reducer;

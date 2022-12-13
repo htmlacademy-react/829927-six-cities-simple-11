@@ -3,11 +3,14 @@ import { useParams } from 'react-router-dom';
 import { MAX_REVIEW_LENGTH, MIN_REVIEW_LENGTH, RATING_LABELS } from '../../const';
 import { useActions } from '../../hooks/useActions';
 import useAppSelector from '../../hooks/useAppSelector';
+import { getReviewErrorStatus, getReviewLoadingStatus } from '../../store/reducers/offer/selectors';
+import ErrorMessage from '../error-message/error-message';
 
 function ReviewForm(): JSX.Element {
   const { postReview } = useActions();
 
-  const { isReviewLoading } = useAppSelector((state) => state.OFFER);
+  const isReviewLoading = useAppSelector(getReviewLoadingStatus);
+  const isReviewError = useAppSelector(getReviewErrorStatus);
 
   const [formData, setFormData] = useState({
     comment: '',
@@ -73,6 +76,7 @@ function ReviewForm(): JSX.Element {
         onChange={handleFormDataChange}
         value={formData.comment}
       />
+      {isReviewError && <ErrorMessage />}
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least{' '}
