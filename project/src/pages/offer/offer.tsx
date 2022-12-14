@@ -54,11 +54,17 @@ function Offer(): JSX.Element {
   }, [offer, offersNearBy]);
 
   useEffect(() => {
-    if (id) {
+    let isMounted = true;
+
+    if (isMounted && id) {
       fetchOffer(id);
       fetchReviews(id);
       fetchOffersNearBy(id);
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
 
   return (

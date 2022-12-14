@@ -1,4 +1,5 @@
 import React, { FormEvent, useRef } from 'react';
+import { toast } from 'react-toastify';
 import { useActions } from '../../hooks/useActions';
 
 function LoginForm(): JSX.Element {
@@ -10,12 +11,22 @@ function LoginForm(): JSX.Element {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (loginRef.current !== null && passwordRef.current !== null) {
-      loginUser({
-        login: loginRef.current.value,
-        password: passwordRef.current.value,
-      });
+    if (loginRef.current === null || passwordRef.current === null) {
+      return toast.error('All fields must be filled');
     }
+
+    if (!/[\d]/.test(passwordRef.current.value)) {
+      return toast.error('Password must contain at least one number');
+    }
+
+    if (!/[A-Za-z]/.test(passwordRef.current.value)) {
+      return toast.error('Password must contain at least one letter');
+    }
+
+    loginUser({
+      login: loginRef.current.value,
+      password: passwordRef.current.value,
+    });
   };
 
   return (

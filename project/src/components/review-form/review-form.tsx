@@ -28,8 +28,10 @@ function ReviewForm(): JSX.Element {
     !formData.rating ||
     !formData.comment ||
     formData.comment.length < MIN_REVIEW_LENGTH ||
-    formData.comment.length < MAX_REVIEW_LENGTH ||
+    formData.comment.length > MAX_REVIEW_LENGTH ||
     isReviewLoading;
+
+  const isInputDisabled = isReviewLoading;
 
   const handleFormSubmit = (evt: React.FormEvent) => {
     evt.preventDefault();
@@ -46,7 +48,7 @@ function ReviewForm(): JSX.Element {
       </label>
       <div className="reviews__rating-form form__rating">
         {RATING_LABELS.map((element, index) => {
-          const value = index + 1;
+          const value = RATING_LABELS.length - index;
 
           return (
             <React.Fragment key={value}>
@@ -58,6 +60,7 @@ function ReviewForm(): JSX.Element {
                 type="radio"
                 onChange={handleFormDataChange}
                 checked={value === +formData.rating}
+                disabled={isInputDisabled}
               />
               <label htmlFor={`${value}-stars`} className="reviews__rating-label form__rating-label" title={element}>
                 <svg className="form__star-image" width="37" height="33">
@@ -75,6 +78,7 @@ function ReviewForm(): JSX.Element {
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={handleFormDataChange}
         value={formData.comment}
+        disabled={isInputDisabled}
       />
       {isReviewError && <ErrorMessage />}
       <div className="reviews__button-wrapper">

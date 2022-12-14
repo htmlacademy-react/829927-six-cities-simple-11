@@ -60,5 +60,5 @@ export const postReview = createAsyncThunk<
   }
 >('offer/postReview', async (params, { dispatch, extra: api }) => {
   const { data } = await api.post<IReview[]>(`${ApiRoute.Reviews}/${params.id}`, params.review);
-  return data;
+  return sortReviewsByDate(data);
 });
