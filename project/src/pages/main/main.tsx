@@ -27,7 +27,15 @@ function Main(): JSX.Element {
   };
 
   useEffect(() => {
-    fetchOffers();
+    let isMounted = true;
+
+    if (isMounted) {
+      fetchOffers();
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (

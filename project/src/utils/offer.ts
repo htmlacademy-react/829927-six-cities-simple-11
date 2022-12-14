@@ -6,8 +6,6 @@ const getOffersByCity = (offers: IOffer[], city: string) => offers.filter((offer
 
 const getLatLongByCity = (currentCity: string): ICity => locations.find((location: ICity) => location.name === currentCity) as ICity;
 
-const sortByPopular = (offers: IOffer[]): IOffer[] => offers;
-
 const sortByPriceHightToLow = (offers: IOffer[]): IOffer[] => offers.sort((offerA, offerB) => offerA.price - offerB.price);
 
 const sortByPriceLowToHight = (offers: IOffer[]): IOffer[] => offers.sort((offerA, offerB) => offerB.price - offerA.price);
@@ -63,7 +61,6 @@ const sortReviewsByDate = (reviews: IReview[]) =>
 export {
   getOffersByCity,
   getLatLongByCity,
-  sortByPopular,
   sortByPriceHightToLow,
   sortByPriceLowToHight,
   sortByTopRated,

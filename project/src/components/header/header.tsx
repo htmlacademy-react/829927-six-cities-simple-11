@@ -40,7 +40,7 @@ function Header({ isLoginPage = false }: HeaderProps): JSX.Element {
                       </div>
                     </li>
                     <li className="header__nav-item">
-                      <a className="header__nav-link" href="#" onClick={handleLogoutClick}>
+                      <a className="header__nav-link" href="/" onClick={handleLogoutClick}>
                         <span className="header__signout">Sign out</span>
                       </a>
                     </li>
